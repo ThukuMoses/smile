@@ -1,7 +1,9 @@
 import random
 import time
 
-Names=["GENESIS","EXODUS","LEVITICUS","NUMBERS","DEUTERONOMY","JOSHUA","JUDGES","RUTH","SAMUEL","KINGS","CHRONICLES","EZRA","NEHEMIAH","ESTHER","JOB","PSALMS","PROVERBS","ECCLESIASTES","ISAIAH","JEREMIAH","LAMENTATIONS","EZEKIEL","DANIEL","HOSEA","JOEL","AMOS","OBADIAH","JONAH","MICAH","NAHUM","HABAKKUK","ZEPHANIAH","HAGGAI","ZECHARIAH","MALACHI","MATTHEW","MARK","LUKE","JOHN","ACTS","ROMANS","CORINTHIANS","GALATIANS","EPHESIANS","COLOSSIANS","THESSALONIANS","TIMOTHY","TITUS","PHILEMON","HEBREWS","JAMES","PETER","JUDE", "REVELATION"]
+NAMES=["GENESIS","EXODUS","LEVITICUS","NUMBERS","DEUTERONOMY","JOSHUA","JUDGES","RUTH","SAMUEL","KINGS","CHRONICLES","EZRA","NEHEMIAH","ESTHER","JOB","PSALMS","PROVERBS","ECCLESIASTES","ISAIAH","JEREMIAH","LAMENTATIONS","EZEKIEL","DANIEL","HOSEA","JOEL","AMOS","OBADIAH","JONAH","MICAH","NAHUM","HABAKKUK","ZEPHANIAH","HAGGAI","ZECHARIAH","MALACHI","MATTHEW","MARK","LUKE","JOHN","ACTS","ROMANS","CORINTHIANS","GALATIANS","EPHESIANS","COLOSSIANS","THESSALONIANS","TIMOTHY","TITUS","PHILEMON","HEBREWS","JAMES","PETER","JUDE", "REVELATION"]
+Names=random.shuffle(NAMES)
+Names=NAMES
 questionsPerRound=10
 time_limit=7.0#seconds allowed per question
 max_shuffle_attempts=10#no. of random shuffles before fallback
@@ -59,7 +61,27 @@ def play_round():
         guess=input("Your guess: ").strip()
         elapsed_time=time.perf_counter()-start
 
-        if elapsed_time>time_limit:
+        tries=0
+        while tries<3:
+            if elapsed_time>time_limit:
+                print(f"Too slow... correct name is {original}\n")
+                break
+            if guess==original:
+                print("Correct! Well done!\n")
+                score+=1
+                break
+            else:
+                if tries<3:
+                    print("wrong, please try again. \n")
+                else:
+                    print(f"Wrong! Correct answer is {original}")
+
+                
+            tries+=1
+
+
+        print(f"'nRound complete. You scored {score}/{len(chosen)}") 
+        '''       if elapsed_time>time_limit:
             print(f"Too slow... correct name is {original}\n")
             continue
         if guess!= original:
@@ -76,7 +98,7 @@ def play_round():
                 score+=1
 
         print(f"'nRound complete. You scored {score}/{len(chosen)}")
-
+'''
 def main():
     while True:
         play_round()
