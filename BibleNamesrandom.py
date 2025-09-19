@@ -58,7 +58,7 @@ def play_round():
             continue
         print(f"Question {idx} : {scrambled}")
         start=time.perf_counter()
-        guess=input("Your guess: ").strip()
+        guess=input("Your guess: ").strip().upper()
         elapsed_time=time.perf_counter()-start
 
         tries=0
@@ -72,7 +72,7 @@ def play_round():
                 break
             else:
                 if tries<3:
-                    print("wrong, please try again. \n")
+                    print("wrong, please try again.")
                 else:
                     print(f"Wrong! Correct answer is {original}")
 
@@ -80,25 +80,8 @@ def play_round():
             tries+=1
 
 
-        print(f"'nRound complete. You scored {score}/{len(chosen)}") 
-        '''       if elapsed_time>time_limit:
-            print(f"Too slow... correct name is {original}\n")
-            continue
-        if guess!= original:
-            tries=enumerate(guess)
-            while tries<3 and tries>=1:#you can only try twice
-                if elapsed_time<time_limit:#if within time limit
-                    print("Wrong, try again.'n")
-                else:#time elapsed show original answer 
-                    print(f"Wrong answer. Answer:{original}.")
-            
-        else:
-            if guess.lower()==original.lower():
-                print("Correct! Well done!")
-                score+=1
+    print(f"'nRound complete. You scored {score}/{len(chosen)}") 
 
-        print(f"'nRound complete. You scored {score}/{len(chosen)}")
-'''
 def main():
     while True:
         play_round()
