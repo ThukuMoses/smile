@@ -60,24 +60,19 @@ def play_round():
         start=time.perf_counter()
         guess=input("Your guess: ").strip().upper()
         elapsed_time=time.perf_counter()-start
+        
 
-        tries=0
-        while tries<3:
-            if elapsed_time>time_limit:
-                print(f"Too slow... correct name is {original}\n")
-                break
-            if guess==original:
-                print("Correct! Well done!\n")
-                score+=1
-                break
-            else:
-                if tries<3:
-                    print("wrong, please try again.")
-                else:
-                    print(f"Wrong! Correct answer is {original}")
+        if elapsed_time>time_limit:
+            print(f"Too slow... correct name is {original}\n")
+            continue
+        if guess==original:
+            print("Correct! Well done!\n")
+            score+=1
+        else:
+            print(f"Wrong! Correct answer is {original}")
 
                 
-            tries+=1
+            
 
 
     print(f"'nRound complete. You scored {score}/{len(chosen)}") 
