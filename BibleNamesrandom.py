@@ -96,7 +96,7 @@ def main():
         play_round()
         again=input("\nPlay again? Choose (y/N): ").strip().lower()
         if again !='y':
-            print("Thanks for playing.")
+            print("Thanks for playing. \n Christ loves you.")
         break
     
 if __name__=="__main__":
