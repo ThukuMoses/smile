@@ -30,11 +30,11 @@ def scrambleWord(name, max_attempts=max_shuffle_attempts):
                 return candidate
             
         return None
-def choose_scrambable_names(pool, k):#randomly select k names in pool of original names
+def choose_scramblable_names(pool, k):#randomly select k names in pool of original names
     available=pool[:]#copy
     random.shuffle(available)
     chosen=[]
-    for name in chosen:
+    for name in pool:
         if len(chosen)>=k:
             break
         if scrambleWord(name) is not None:#test for scramblability
@@ -43,7 +43,7 @@ def choose_scrambable_names(pool, k):#randomly select k names in pool of origina
     return chosen
 
 def play_round():
-    chosen=choose_scrambable_names(Names, questionsPerRound)
+    chosen=choose_scramblable_names(Names, questionsPerRound)
     if len(chosen)<questionsPerRound:#names lesser than requested names
         print(f"Note: Only {len(chosen)} scramblable names available for this round.")#warn the user
 
@@ -57,7 +57,7 @@ def play_round():
         print(f"Question {idx} : {scrambled}")
         start=time.perf_counter()
         guess=input("Your guess: ").strip()
-        elapsed_time=time.perf_counter-start
+        elapsed_time=time.perf_counter()-start
 
         if elapsed_time>time_limit:
             print(f"Too slow... correct name is {original}\n")
@@ -81,7 +81,7 @@ def main():
     while True:
         play_round()
         again=input("\nPlay again? Choose (y/N): ").strip().lower()
-        if again!="y":
+        if again !='y':
             print("Thanks for playing.")
         break
     
