@@ -80,7 +80,7 @@ def play_round():
 def main():
     while True:
         play_round()
-        again=input("\nPlay again? Choose (y/N): ").strip.lower()
+        again=input("\nPlay again? Choose (y/N): ").strip().lower()
         if again!="y":
             print("Thanks for playing.")
         break
