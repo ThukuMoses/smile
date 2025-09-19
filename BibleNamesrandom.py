@@ -10,22 +10,70 @@ def scrambleWord(name, max_attempts=max_shuffle_attempts):
     '''return a scrambled version of 'name' that is guaranteed 
     not to equal the original one (case-insensitive).
     if impossible return none'''
-    if len(name)<=1:#all characters are the same, eg aaaaa
+    if len(name)<=1:#the name has 0 or 1 characters
+        return None
+    if len(set(name.lower()))==1:#the set return has 1 character eg name is aaaaa which returns a set of just a
         return None
     chars=list(name)#convert name to a list of characters
 
     for _ in range(max_attempts):
-        random.shuffle(chars)
-        candidate=''.join(chars)
+        random.shuffle(chars)#rearrange chars list in a random order
+        candidate=''.join(chars)#gluue together the random list chars
         if candidate.lower()!=name.lower():
             return candidate
         
-        orig=list(name)
-        n=len(orig)
-        for shift in range(1,n):
-            candidate=''.join(orig[shift::]+ orig[::])
+        orig=list(name)#new list
+        n=len(orig)#length of upcoming rotation loop
+        for shift in range(1,n):#backup if random shufle doesn't work
+            candidate=''.join(orig[shift:]+ orig[:shift])
             if candidate.lower()!=name.lower():
                 return candidate
             
         return None
-    
+def choose_scrambable_names(pool, k):#randomly select k names in pool of original names
+    available=pool[:]#copy
+    random.shuffle(available)
+    chosen=[]
+    for name in chosen:
+        if len(chosen)>=k:
+            break
+        if scrambleWord(name) is not None:#test for scramblability
+            chosen.append(name)
+
+    return chosen
+
+def play_round():
+    chosen=choose_scrambable_names(Names, questionsPerRound)
+    if len(chosen)<questionsPerRound:#names lesser than requested names
+        print(f"Note: Only {len(chosen)} scramblable names available for this round.")#warn the user
+
+    score=0
+    print(f"\nRound :{len(chosen)} questions, {time_limit} seconds each. \n")
+    for idx, original in enumerate(chosen, start=1):
+        scrambled=scrambleWord(original)
+        if scrambled is None:
+            print(f"Skipping {idx} ({original}) -no scramble for name.")
+            continue
+        print(f"Question {idx} : {scrambled}")
+        start=time.perf_counter()
+        guess=input("Your guess: ").strip()
+        elapsed_time=time.perf_counter-start
+
+        if elapsed_time>time_limit:
+            print(f"Too slow... correct name is {original}\n")
+            continue
+        if guess!= original:
+            tries=enumerate(guess)
+            while tries<3 and tries>=1:
+                if elapsed_time<time_limit:
+                    print("Wrong, try again.'n")
+                else:
+                    print(f"Wrong answer. Answer:{original}.")
+            
+        else:
+            if guess.lower ==original.lower():
+                print("Correct! Well done!")
+                score+=1
+
+        print(f"'nRound complete. You scored {score}/{len(chosen)}")
+
